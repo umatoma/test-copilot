@@ -1,0 +1,31 @@
+version: '3'
+
+tasks:
+  init:
+    cmds:
+      - task: init-app
+      - task: init-env
+      - task: init-svc
+  init-app:
+    cmds:
+      - copilot app init app-1123
+  init-env:
+    cmds:
+      - copilot env init --name dev --profile default --default-config
+  init-svc:
+    cmds:
+      - copilot svc init --name svc-rdws --svc-type "Request-Driven Web Service" --dockerfile ./svc-rdws/Dockerfile
+      - copilot svc init --name svc-ws --svc-type "Worker Service" --dockerfile ./svc-ws/Dockerfile
+  deploy:
+    cmds:
+      - task: deploy-dev
+  deploy-dev:
+    cmds:
+      - task: deploy-dev-svc-rdws
+      - task: deploy-dev-svc-ws
+  deploy-dev-svc-rdws:
+    cmds:
+      - copilot svc deploy --name svc-rdws --env dev
+  deploy-dev-svc-ws:
+    cmds:
+      - copilot svc deploy --name svc-ws --env dev
